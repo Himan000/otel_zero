@@ -67,6 +67,10 @@ func Error() *zerolog.Event {
 	return zero.Log().Error()
 }
 
+func Panic() *zerolog.Event {
+	return zero.Log().Panic()
+}
+
 // 设置请求的middleware，每个请求写一些日志
 func SetLogger(configItems ...zero_mdc_log.ConfigItem) gin.HandlerFunc {
 	return zero_mdc_log.SetLogger(configItems...)

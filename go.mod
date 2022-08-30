@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/Himan000/otel_zap_logger v0.0.0-20220826035440-965950227cc1
-	github.com/Himan000/zero_mdc_log v0.0.0-20220826035521-64d9d2d80fe0
+	github.com/Himan000/zero_mdc_log v0.0.0-20220830091004-eaf12283a9df
 	github.com/gin-gonic/gin v1.8.1
 	github.com/rs/zerolog v1.27.0
 )
