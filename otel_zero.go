@@ -39,7 +39,7 @@ func NewReqeust(method, url string, body io.Reader) (*http.Response, error) {
 }
 
 // 调用链的请求包装
-func GetReqeustHeader(method, url string, body io.Reader) map[string][]string {
+func GetReqeustHeader(method, url string, body io.Reader) map[string]string {
 	request, _ := http.NewRequest(method, url, body)
 	ctx, _ := zero.MDC().Get("ctx")
 	otel.HttpInject(ctx.(context.Context), request)
@@ -51,7 +51,19 @@ func GetReqeustHeader(method, url string, body io.Reader) map[string][]string {
 		request.Header.Add("traceparent", traceparent)
 	}
 
-	return request.Header
+	result := make(map[string]string)
+
+	for k, v := range request.Header {
+		value := ""
+
+		for _, i := range v {
+			value += i
+		}
+
+		result[k] = value
+	}
+
+	return result
 }
 
 // 将日志相关需要协程安全的信息放到MDC
