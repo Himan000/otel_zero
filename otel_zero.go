@@ -11,6 +11,12 @@ import (
 	zero "github.com/Himan000/zero_mdc_log/log"
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog"
+	"gitee.com/wxlao/eureka-client"
+)
+
+const (
+	POST = "POST"
+	GET  = "GET"
 )
 
 func Init(r *gin.Engine) {
@@ -64,6 +70,13 @@ func GetReqeustHeader(method, url string, body io.Reader) map[string]string {
 	}
 
 	return result
+}
+
+func AppendOtelHeader(url, method string, opts ...eureka.Option) []eureka.Option {
+	headerOpts := eureka.WithHeaders(GetReqeustHeader(method, url, nil))
+	opts = append(opts, headerOpts)
+
+	return opts
 }
 
 // 将日志相关需要协程安全的信息放到MDC

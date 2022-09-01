@@ -10,7 +10,15 @@ require (
 )
 
 require (
+	github.com/HikoQiu/go-eureka-client/eureka v0.0.0-20200428035747-ac92e3f91f92 // indirect
+	github.com/HikoQiu/go-feign/feign v0.0.0-20181128030340-49e6851aff9f // indirect
+	github.com/miekg/dns v1.1.29 // indirect
+	gopkg.in/resty.v1 v1.12.0 // indirect
+)
+
+require (
 	gitee.com/wxlao/config-client v0.0.0-20200109233241-2e1204846565 // indirect
+	gitee.com/wxlao/eureka-client v0.0.0-20210705100120-e0cde7fc4bd6
 	github.com/fsnotify/fsnotify v1.5.4 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-logr/logr v1.2.3 // indirect
