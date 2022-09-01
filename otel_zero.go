@@ -5,13 +5,13 @@ import (
 	"io"
 	"net/http"
 
+	"gitee.com/wxlao/eureka-client"
 	"github.com/Himan000/otel_zap_logger/otel"
 	"github.com/Himan000/otel_zap_logger/propagation/extract"
 	"github.com/Himan000/zero_mdc_log"
 	zero "github.com/Himan000/zero_mdc_log/log"
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog"
-	"gitee.com/wxlao/eureka-client"
 )
 
 const (
@@ -45,8 +45,8 @@ func NewReqeust(method, url string, body io.Reader) (*http.Response, error) {
 }
 
 // 调用链的请求包装
-func GetReqeustHeader(method, url string, body io.Reader) map[string]string {
-	request, _ := http.NewRequest(method, url, body)
+func GetReqeustHeader() map[string]string {
+	request, _ := http.NewRequest("", "", nil)
 	ctx, _ := zero.MDC().Get("ctx")
 	otel.HttpInject(ctx.(context.Context), request)
 	traceparent := request.Header.Get("Traceparent")
@@ -72,8 +72,8 @@ func GetReqeustHeader(method, url string, body io.Reader) map[string]string {
 	return result
 }
 
-func AppendOtelHeader(url, method string, opts ...eureka.Option) []eureka.Option {
-	headerOpts := eureka.WithHeaders(GetReqeustHeader(method, url, nil))
+func AppendOtelHeader(opts ...eureka.Option) []eureka.Option {
+	headerOpts := eureka.WithHeaders(GetReqeustHeader())
 	opts = append(opts, headerOpts)
 
 	return opts
