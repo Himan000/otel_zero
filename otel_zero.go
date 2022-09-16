@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"gitee.com/wxlao/eureka-client"
+	"github.com/Himan000/otel_zap_logger"
 	"github.com/Himan000/otel_zap_logger/otel"
 	"github.com/Himan000/otel_zap_logger/propagation/extract"
 	"github.com/Himan000/zero_mdc_log"
@@ -50,7 +51,12 @@ func GetReqeustHeader() map[string]string {
 	ctx, _ := zero.MDC().Get("ctx")
 
 	if ctx == nil {
-		ctx = context.TODO()
+		traceID := otel_zap_logger.GenTraceID()
+		spanID := otel_zap_logger.GenSpanID()
+		ctx, _ := otel_zap_logger.NewRootContext(traceID, spanID)
+		request.Header.Add("B3", traceID)
+		zero.MDC().Set("ctx", ctx)
+		zero.MDC().Set(zero.TRACE_ID, otel.GetTraceId(ctx.(context.Context)))
 	}
 
 	otel.HttpInject(ctx.(context.Context), request)
