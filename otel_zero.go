@@ -57,7 +57,7 @@ func GetReqeustHeader() map[string]string {
 		ctx = tmpCtx
 		request.Header.Add("B3", traceID)
 		zero.MDC().Set("ctx", ctx)
-		zero.MDC().Set(zero.TRACE_ID, otel.GetTraceId(ctx.(context.Context)))
+		zero.MDC().Set(zero.TRACE_ID, traceID)
 	}
 
 	otel.HttpInject(ctx.(context.Context), request)
