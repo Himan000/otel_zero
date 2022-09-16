@@ -53,7 +53,8 @@ func GetReqeustHeader() map[string]string {
 	if ctx == nil {
 		traceID := otel_zap_logger.GenTraceID()
 		spanID := otel_zap_logger.GenSpanID()
-		ctx, _ := otel_zap_logger.NewRootContext(traceID, spanID)
+		tmpCtx, _ := otel_zap_logger.NewRootContext(traceID, spanID)
+		ctx = tmpCtx
 		request.Header.Add("B3", traceID)
 		zero.MDC().Set("ctx", ctx)
 		zero.MDC().Set(zero.TRACE_ID, otel.GetTraceId(ctx.(context.Context)))
