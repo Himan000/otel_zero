@@ -48,6 +48,11 @@ func NewReqeust(method, url string, body io.Reader) (*http.Response, error) {
 func GetReqeustHeader() map[string]string {
 	request, _ := http.NewRequest("", "", nil)
 	ctx, _ := zero.MDC().Get("ctx")
+
+	if ctx == nil {
+		ctx = context.TODO()
+	}
+
 	otel.HttpInject(ctx.(context.Context), request)
 	traceparent := request.Header.Get("Traceparent")
 	b3 := request.Header.Get("B3")
